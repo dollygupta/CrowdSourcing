@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+ <script src = "/socket.io/socket.io.js"> </script>
+ <script type="text/javaScript" src='/javascript/jquery.js'></script>
+ <script type="text/javaScript" src="/javascript/report.js"></script>
+ <script type="text/javaScript" src="/javascript/map.js"></script>
+
+ <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<style type="text/css">
+.modal-header {
+  border: none !important ;
+}
+.form-horizontal  {
+  text-align: center;
+}
+</style>
+
+<script type="text/javascript">
+var x = '';
+
+	var socket = io.connect('http://localhost:3000/'); // make client connection with socket
+	var nickname =" ", latitude="" , longitude="", reportLoc="", userPos="", img="", normalPos="",normalImg="",redPos="",redImg="";
+	var src="",inter="",dest="",myTrip;
+
+	//on connecting ask for the user name
+	socket.on('connect',function(data){			
+	nickname=prompt("Please enter your name:");
+	socket.emit('join',nickname);
+	showOtherUser();
+	setPointer();
+	});
+	//broadcast report to the clients
+	socket.on('messages',function(data){
+		reportLoc=new google.maps.LatLng(data.lat,data.long);
+		if(data.msg=="hazard"){
+		 placeHazardMarker(reportLoc,nickname);}
+		 else if(data.msg=="accident"){
+		 placeAccidentMarker(reportLoc,nickname);}
+		 else if(data.msg=="emergency"){
+		 placeEmergencyVehicleMarker(reportLoc,nickname);}
+		 else if(data.msg=="traffic"){
+		 placeTrafficJamMarker(reportLoc,nickname);}
+		 else if(data.msg=="closedRoad"){
+		 placeClosedRoadsMarker(reportLoc,nickname);}
+		 else if(data.msg=="police"){
+		 placeTrafficPoliceMarker(reportLoc,nickname);}
+		 
+		});
+	
+	// broadcast alert activities to other user.
+	socket.on('sendAlert',function(data,wayLat,wayLong){
+		alert(data);
+		var i=0;
+		var value;
+		pointsArray=[];
+		for(i=0; i<wayLat.length; i++)
+			{
+				value= new google.maps.LatLng(wayLat[i],wayLong[i]);
+				pointsArray.push(value);
+			}
+		placePolyLineForEmergency();
+		//showEmergencyRoute(start,end);	
+	});
+	socket.on('sendPolyWay',function(wayLat,wayLong)
+	{
+		var i=0;
+		var value;
+		
+		for(i=0; i<wayLat.length; i++)
+			{
+				value= new google.maps.LatLng(wayLat[i],wayLong[i]);
+				pointsArray.push(value);
+			}
+		placePolyLineForEmergency();
+	});
+	
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:1210px;height:650px;"></div>
+
+
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel" align="center">Give Access Code</h4>
+      </div>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" onsubmit="return false">
+          <fieldset>
+            <!-- Text input-->
+            <div class="form-group">
+              <div class="col-md-12">
+              <input id="s3" name="source" type="text" required placeholder="Access Code" class="form-control input-md" >
+                
+              </div>
+            </div>
+
+            <!-- Button -->
+            <input type="submit" class="btn btn-primary" onclick='checkInputsBeforeClosing("#s3","madhavWasHere", "#myModal3");' value="Save changes" />
+            </fieldset>
+            </form>
+            
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+</html>
