@@ -6,8 +6,8 @@ var mysql = require('mysql');
 var pool  = mysql.createPool({
 	host     : 'localhost',
 	user     : 'root',
-	password : '',
-	port     : '1234',
+	password : 'root',
+	port     : '3306',
 	database : 'crowdsourcing',
 	connectionLimit : '10'
 });
