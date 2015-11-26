@@ -86,7 +86,7 @@ function placePolyLineForEmergency()
   path:pointsArray,
   strokeColor:"#FF0000",
   strokeOpacity:0.8,
-  strokeWeight:2,
+  strokeWeight:3,
   map:map,
   });
 }
@@ -322,14 +322,15 @@ function setNormalMarker1(normalPos,normalImg,latitude,longitude,name,mobileno,s
 }
 
 
-function placeSrcDestMarker(location)
+function placeSrcDestMarker(location) // place src destination pins
 {
 
   var marker;
 	
    if(clickCount == 1)
    {
-      start = location;
+	   start=userPos; // user location as start point
+     // start = location; //location of start point
    	  marker = new google.maps.Marker({
     	position: location,
     	map: map,
@@ -355,9 +356,12 @@ function placeSrcDestMarker(location)
        });
    })(marker);
     
-  if(clickCount == 2)
+  if(clickCount == 2)  //when two pointers call function
   {
+	  
 	  calNoOfCluster();
+	  setRoutes();
+	  
   }
 }
 
@@ -410,7 +414,7 @@ function calNPMGeoDistance(lat1,lon1,lat2,lon2)
         success: function(result) {
         	if(result == "Error")
         	{
-        		alert('error hai' + textStatus + "" + errorThrown);
+        		alert('error' + textStatus + "" + errorThrown);
         	}else{
         		distanceInMiles = parseFloat(result,6);
         		showPOIStart(lat1,lon1,distanceInMiles*3);
@@ -531,3 +535,4 @@ function initialize() {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
