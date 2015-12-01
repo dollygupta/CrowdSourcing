@@ -11,7 +11,7 @@ var wayLat=[], wayLong=[];
 var finalCluster=[];
 
 // Add a Hazard control that adds the hazard control on Map
-function HazardControl(controlDiv, map) {
+/* HazardControl(controlDiv, map) {
   controlDiv.style.padding = '5px';
   var controlUI=document.createElement("img");
   controlUI.src="images/hazardIcon.png";
@@ -76,7 +76,7 @@ function EmergencyVehicleControl(controlDiv, map) {
   google.maps.event.addDomListener(controlUI, 'click', function() {
 	 
   });
-}
+}*/
 
 //Function to add the polyLineForEmergency
 function placePolyLineForEmergency()
@@ -92,7 +92,7 @@ function placePolyLineForEmergency()
 }
 
 // Add a Traffic Jam control that adds the traffic jam control on Map
-function TrafficJamControl(controlDiv, map) {
+/*function TrafficJamControl(controlDiv, map) {
   controlDiv.style.padding = '5px';
   var controlUI=document.createElement("img");
   controlUI.src="images/trafficJamIcon.png";
@@ -152,7 +152,7 @@ function TrafficPoliceControl(controlDiv, map) {
   google.maps.event.addDomListener(controlUI, 'click', function() {
   report("police");
   });normalPos
-}
+}*/
 
 function placeHazardMarker(reportLoc,nickname) {
 var markerHazardLocation = reportLoc;
@@ -517,7 +517,7 @@ function initialize() {
   		
   });
   
-  var hazardControlDiv = document.createElement('div');
+  /*var hazardControlDiv = document.createElement('div');
   var hazardControl = new HazardControl(hazardControlDiv, map);
   
   var accidentControlDiv = document.createElement('div');
@@ -541,7 +541,7 @@ function initialize() {
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(trafficJamControlDiv);
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(closedRoadsControlDiv);
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(policeControlDiv);
-  
+  */
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

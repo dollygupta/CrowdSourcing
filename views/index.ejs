@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
  <script src = "/socket.io/socket.io.js"> </script>
- <script type="text/javaScript" src='/javascript/jquery.js'></script>
- <script type="text/javaScript" src="/javascript/report.js"></script>
- <script type="text/javaScript" src="/javascript/map.js"></script>
-  <script src="/javascript/v3_epoly.js" type="text/javascript"></script>
-   <script src="/javascript/movingPointer.js" type="text/javascript"></script>
+ 
+ 
+   <script type="text/javaScript" src="/javascript/jquery-1.11.2.min.js"></script>
 
  <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -17,14 +15,22 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<style type="text/css">
-.modal-header {
-  border: none !important ;
-}
-.form-horizontal  {
-  text-align: center;
-}
-</style>
+<link href="/stylesheets/simple-sidebar.css" rel="stylesheet">
+
+	<link href="/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<style type="text/css">
+		.modal-header {
+			border: none !important ;
+		}
+		.form-horizontal  {
+			text-align: center;
+		}
+		.fa.fa-plus-square-o.fa-lg
+		{
+			color: white;
+		}
+	</style>
 
 <script type="text/javascript">
 var x = '';
@@ -89,8 +95,66 @@ var x = '';
 </head>
 
 <body>
-<div id="googleMap" style="width:1210px;height:650px;"></div>
 
+<nav class="navbar navbar-inverse no-margin">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header fixed-brand" style="margin-left: 48%">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle" style="right: 175%">
+			<span class="fa fa-plus-square-o fa-lg" aria-hidden="true"></span>
+		</button>
+		<a class="navbar-brand" href="/home"><i class="fa fa-rocket fa-4"></i> Apollo</a>
+	</div><!-- navbar-header-->
+
+<!--	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav">
+			<li class="active" ><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
+		</ul>
+	</div>--><!-- bs-example-navbar-collapse-1 -->
+</nav>
+<div id="wrapper" class="toggled-2">
+	<!-- Sidebar -->
+	<div id="sidebar-wrapper">
+		<ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+
+			<li class="active">
+				<a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span> Report</a>
+				<ul class="nav-pills nav-stacked" style="list-style-type:none;">
+					<li><a href="#" onclick="report('police');return false;"><span class="fa-stack fa-lg pull-left"><i class="fa fa-taxi fa-stack-1x "></i></span>Police</a></li>
+					<li><a href="#" onclick="report('closedRoad');return false;"><span class="fa-stack fa-lg pull-left"><i class="fa fa-times fa-stack-1x "></i></span>Closed Roads</a></li>
+					<li><a href="#" onclick="report('traffic');return false;"><span class="fa-stack fa-lg pull-left"><i class="fa fa-car fa-stack-1x "></i></span>Traffic Jams</a></li>
+					<li><a href="#" id="emergency"><span class="fa-stack fa-lg pull-left"><i class="fa fa-ambulance fa-stack-1x "></i></span>Emergency</a></li>
+					<li><a href="#" onclick="report('accident');return false;"><span class="fa-stack fa-lg pull-left"><i class="fa fa-hotel fa-stack-1x "></i></span>Accident</a></li>
+					<li><a href="#" onclick="report('hazard');return false;"><span class="fa-stack fa-lg pull-left"><i class="fa fa-exclamation-triangle fa-stack-1x "></i></span>Hazard</a></li>
+
+				</ul>
+			</li>
+			<li>
+				<a href="/chat"><span class="fa-stack fa-lg pull-left"><i class="fa fa-comment-o fa-stack-1x "></i></span>Chat</a>
+			</li>
+
+			<li>
+				<a href="/contact"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Contact Us</a>
+			</li>
+
+			<li>
+				<a href="/"><span class="fa-stack fa-lg pull-left"><i class="fa fa-power-off fa-stack-1x "></i></span>Logout</a>
+			</li>
+		</ul>
+	</div><!-- /#sidebar-wrapper -->
+	<!-- Page Content -->
+	<div id="page-content-wrapper">
+		<div class="container-fluid xyz">
+			<div class="row">
+				<div class="col-lg-12">
+					<div id="googleMap" style="width:100%;height:620px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
 
 <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -120,8 +184,27 @@ var x = '';
     </div>
   </div>
 </div>
-
+<!-- footer -->
+<nav class="navbar navbar-inverse no-margin">
+	<div class="container">
+		<p align="center" style="padding-top: 1%; color: white">Copyright - Apollo Inc. 2015</p>
+	</div>
+</nav>
+<!-- end footer -->
 
 </body>
+<script type="text/javascript">
+$('#emergency').on('click',function(){
+	$('#myModal3').modal('show');
+});
 
+</script>
+<script src="http://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+<script type="text/javaScript" src="/javascript/report.js"></script>
+ <script type="text/javaScript" src="/javascript/map.js"></script>
+  <script src="/javascript/v3_epoly.js" type="text/javascript"></script>
+   <script src="/javascript/movingPointer.js" type="text/javascript"></script>
+<script src="/javascript/sidebar_menu.js"></script>
+   
 </html>

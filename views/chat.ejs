@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Apollo280 Chat</title>
+    <script src = "/socket.io/socket.io.js"> </script>
+
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/stylesheets/simple-sidebar.css" rel="stylesheet">
+
+    <link href="/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <style type="text/css">
+
+        #chat{
+            height:411px;
+        }
+
+        .chat li
+        {
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px dotted #B3A9A9;
+        }
+
+        .chat li.left .chat-body
+        {
+            margin-left: 60px;
+        }
+
+        .chat li.right .chat-body
+        {
+            margin-right: 60px;
+        }
+
+
+        .chat li .chat-body p
+        {
+            margin: 0;
+            color: #777777;
+        }
+
+        .panel .slidedown .glyphicon, .chat .glyphicon
+        {
+            margin-right: 5px;
+        }
+
+        .panel-body
+        {
+            overflow-y: scroll;
+            height: 450px;
+        }
+
+        .fa.fa-plus-square-o.fa-lg
+        {
+            color: white;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse no-margin">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header fixed-brand" style="margin-left: 48%">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle" style="right: 175%">
+            <span class="fa fa-plus-square-o fa-lg" aria-hidden="true"></span>
+        </button>
+        <a class="navbar-brand" href="/home"><i class="fa fa-rocket fa-4"></i> Apollo</a>
+    </div><!-- navbar-header-->
+
+    <!--	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active" ><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
+            </ul>
+        </div>--><!-- bs-example-navbar-collapse-1 -->
+</nav>
+<div id="wrapper" class="toggled-2">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+
+            <li>
+                <a href="/home"><span class="fa-stack fa-lg pull-left"><i class="fa fa-map-marker fa-stack-1x "></i></span>Map</a>
+            </li>
+            <li>
+                <a href="/chat"><span class="fa-stack fa-lg pull-left"><i class="fa fa-comment-o fa-stack-1x "></i></span>Chat</a>
+            </li>
+
+            <li>
+                <a href="/contact"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Contact Us</a>
+            </li>
+
+            <li>
+                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-power-off fa-stack-1x "></i></span>Logout</a>
+            </li>
+        </ul>
+    </div><!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading text-center">
+                                <span class="glyphicon glyphicon-comment"></span> Chat
+                            </div>
+                            <div class="panel-body" id="chat">
+
+                            </div>
+                            <div class="panel-footer">
+                                <div class="input-group">
+                                    <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-warning btn-sm" id="btn-chat">Send</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- footer -->
+<nav class="navbar navbar-inverse no-margin">
+    <div class="container">
+        <p align="center" style="padding-top: 1%; color: white">Copyright - Apollo Inc. 2015</p>
+    </div>
+</nav>
+
+</body>
+
+<script type="text/javaScript" src="/javascript/jquery-1.11.2.min.js"></script>
+<script src="/javascript/sidebar_menu.js"></script>
+<script src="/javascript/bootstrap.min.js"></script>
+<script>
+    jQuery(function($){
+        var socket = io.connect(window.location.hostname);
+        var $users = $('#users');
+        var $messageForm = $('#btn-chat');
+        var $messageBox = $('#btn-input');
+        var $chat = $('#chat');
+
+
+        socket.emit('new user', function(){
+
+        });
+
+        socket.on('usernames', function(data){
+            var html = '';
+            for(var i=0; i < data.length; i++){
+                html += data[i] + '<br/>'
+            }
+            $users.html(html);
+        });
+
+        $messageForm.click(function(e){
+            e.preventDefault();
+            socket.emit('send message', $messageBox.val());
+            $messageBox.val('');
+        });
+
+        socket.on('new message', function(data){
+            $chat.append('<b>' + data.nick + ': </b>' + data.msg + "<br/>");
+        });
+    });
+</script>
+<!-- &lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+&lt;!&ndash; Optional theme &ndash;&gt;
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+&lt;!&ndash; Latest compiled and minified JavaScript &ndash;&gt;
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+
+</html>

@@ -28,6 +28,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+app.get('/chat', function(req, res) {
+	res.render('chat');
+});
+
+app.get('/contact', function(req, res) {
+	res.render('contact');
+});
+
 
 app.get('/', routes.index);
 app.get('/users', user.list);
@@ -102,5 +110,23 @@ io.on('connection',function(client){
 	client.on('sendPolyWay',function(wayLat, wayLong){
 		console.log("--in---------------------"+ wayLat[0]);
 		client.broadcast.emit("sendPolyWay",wayLat,wayLong);
+	});
+	client.on('new user', function(){
+			client.nickname = people[id].name;
+			updateNicknames();
+	});
+
+	function updateNicknames(){
+		io.sockets.emit('usernames', people);
+	}
+
+	client.on('send message', function(data){
+		io.sockets.emit('new message', {msg: data, nick: client.nickname});
+	});
+
+	client.on('disconnect', function(data){
+		if(!client.nickname) return;
+		people.splice(people.indexOf(client.nickname), 1);
+		updateNicknames();
 	});
 });
