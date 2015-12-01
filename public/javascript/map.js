@@ -160,7 +160,9 @@ var markerHazardLocation = reportLoc;
     position: markerHazardLocation,
     icon:'images/hazard.png',
     map: map,
-  });
+    zIndex: 10
+
+ });
   (function(marker) {
         // add click event
         google.maps.event.addListener(marker, 'click', function() {
@@ -178,6 +180,7 @@ var markerAccidentLocation = reportLoc;
     position: markerAccidentLocation,
     icon:'images/accident.png',
     map: map,
+    zIndex: 10
   });
   (function(marker) {
         // add click event
@@ -197,6 +200,7 @@ var markerEmergencyVehicleLocation = reportLoc;
     position: markerEmergencyVehicleLocation,
     icon:'images/emergencyVehicle.png',
     map: map,
+    zIndex: 10
   });
   (function(marker) {
         // add click event
@@ -215,6 +219,7 @@ var markerTrafficJamLocation = reportLoc;
     position: markerTrafficJamLocation,
     icon:'images/trafficJam.png',
     map: map,
+    zIndex: 10
   });
   (function(marker) {
         // add click event
@@ -233,6 +238,7 @@ var markerClosedRoadsLocation = reportLoc;
     position: markerClosedRoadsLocation,
     icon:'images/closedRoads.png',
     map: map,
+    zIndex: 10
   });
   (function(marker) {
         // add click event
@@ -251,6 +257,7 @@ var markerPoliceLocation = reportLoc;
     position: markerPoliceLocation,
     icon:'images/trafficPolice.png',
     map: map,
+    zIndex: 10
   });
   
   (function(marker) {
@@ -270,6 +277,7 @@ function setUserMarker(userPos,nickname) {
 	    position: userPos,
 	    icon:img,
 	    map: map,
+        zIndex: 8
 	  });
 	  
 	  (function(marker) {
@@ -288,6 +296,7 @@ function setNormalMarker(normalPos,normalImg,latitude,longitude,name,mobileno,st
 	    position: normalPos,
 	    icon:normalImg,
 	    map: map,
+        zIndex: 5
 	  });
 	  
 	  // process multiple info windows
@@ -307,6 +316,7 @@ function setNormalMarker1(normalPos,normalImg,latitude,longitude,name,mobileno,s
 	    position: normalPos,
 	    icon:normalImg,
 	    map: map,
+        zIndex: 5
 	  });
 	  
 	  // process multiple info windows
@@ -326,23 +336,23 @@ function placeSrcDestMarker(location) // place src destination pins
 {
 
   var marker;
-	
-   if(clickCount == 1)
-   {
+
 	   start=userPos; // user location as start point
      // start = location; //location of start point
-   	  marker = new google.maps.Marker({
+   	  /*marker = new google.maps.Marker({
     	position: location,
     	map: map,
     	icon:'images/greenPinIcon.png',
-  	  });
-   }else if(clickCount == 2)
+       zIndex: 15
+  	  });*/
+   if(clickCount == 1)
    {
    	  end = location;
       marker = new google.maps.Marker({
     	position: location,
     	map: map,
     	icon:'images/bluePinIcon.png',
+        zIndex: 15
   	  });
    }
    
@@ -356,7 +366,7 @@ function placeSrcDestMarker(location) // place src destination pins
        });
    })(marker);
     
-  if(clickCount == 2)  //when two pointers call function
+  if(clickCount == 1)  //when two pointers call function
   {
 	  
 	  calNoOfCluster();
@@ -379,7 +389,7 @@ function calNoOfCluster() {
 	    if (status == google.maps.DirectionsStatus.OK) { 
 	     pointsArray = response.routes[0].overview_path;
 	     len=pointsArray.length;
-	     placePolyLineForEmergency();
+	    // placePolyLineForEmergency();
 	     for(i=0;i<len;i++)
 	    	 {
 	    	 wayLat.push(pointsArray[i].lat());
@@ -495,7 +505,7 @@ function initialize() {
 
   directionsDisplay.setMap(map);
   google.maps.event.addListener(map, 'click', function(event) {
-  	if(isEmergency == true && clickCount <3)
+  	if(isEmergency == true && clickCount <2)
   	{
   		clickCount = clickCount +1;
   		placeSrcDestMarker(event.latLng);

@@ -20,7 +20,7 @@
         var myPano;
         var panoClient;
         var nextPanoId;
-        var start='san fransisco, ca';
+       /* var start='san fransisco, ca';
         var end='san jose, ca';
 
         var locations =
@@ -55,7 +55,7 @@
                         "start": 'oakland, ca',
                         "end": 'santa clara, ca'
                     }
-                ];
+                ];*/
 
       //  var Colors = ["#FF0000", "#00FF00", "#0000FF"];
 
@@ -90,8 +90,9 @@
             var marker = new google.maps.Marker({
                 position: latlng,
                 map: map,
+                icon:'images/emergencyVehicle.png',
                 title: label,
-                zIndex: Math.round(latlng.lat()*-100000)<<5
+                zIndex: 20
             });
             marker.myname = label;
 
@@ -121,10 +122,9 @@
                     destination: end,
                     travelMode: travelMode
                 };
+            console.log(start.lat(),start.lng(),travelMode,end.lat(),end.lng());
 
                 directionsService.route(request,makeRouteCallback(0,directionsDisplay[0]));
-
-            
 
 
             function makeRouteCallback(routeNum,disp){
@@ -140,6 +140,7 @@
                    //     var route = response.routes[0];
                         startLocation[routeNum] = new Object();
                         endLocation[routeNum] = new Object();
+
 
                         polyline[routeNum] = new google.maps.Polyline({
                             path: [],
@@ -167,7 +168,7 @@
                         //Markers
                         for (i=0;i<legs.length;i++) {
                         	/*if(i<legs.length){
-                        		calNPMGeoDistance(legs[i].lat(), legs[i].lng(), legs[i+1].lat(), legs[i+1].lng());
+                        		calNPMGeoDistance(legs[i].latlng.lat(), legs[i].latlng.lng(), legs[i+1].latlng.lat(), legs[i+1].latlng.lng());
                         	}*/
                         	
                             if (i == 0) {
@@ -176,7 +177,7 @@
                               //  console.log(startLocation[routeNum].latlng.lat());
                                 console.log(legs[i].start_address);
                                 // marker = google.maps.Marker({map:map,position: startLocation.latlng});
-                                marker[routeNum] = createMarker(legs[i].start_location,locations[routeNum].name,legs[i].start_address);
+                                marker[routeNum] = createMarker(legs[i].start_location,"start",legs[i].start_address);
                             }
                             endLocation[routeNum].latlng = legs[i].end_location;
                             endLocation[routeNum].address = legs[i].end_address;
