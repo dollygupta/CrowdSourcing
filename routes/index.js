@@ -4,5 +4,7 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+var userName = req.param("inputUserName");
+console.log("DollyWasHere "+ userName );
+  res.render('index', { userName: userName});
 };

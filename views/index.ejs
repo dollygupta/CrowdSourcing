@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<title><%= userName %></title>
  <script src = "/socket.io/socket.io.js"> </script>
  
  
@@ -42,6 +42,8 @@ var x = '';
 	//on connecting ask for the user name
 	socket.on('connect',function(data){			
 	nickname=prompt("Please enter your name:");
+	//nickname= <%- JSON.stringify(userName) %>
+	//console.log(nickname);
 	socket.emit('join',nickname);
 	showOtherUser();
 	setPointer();

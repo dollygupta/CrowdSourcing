@@ -369,8 +369,9 @@ function placeSrcDestMarker(location) // place src destination pins
   if(clickCount == 1)  //when two pointers call function
   {
 	  
-	  calNoOfCluster();
+	calNoOfCluster();
 	  setRoutes();
+	 userPos=location;
 	  
   }
 }
@@ -389,6 +390,7 @@ function calNoOfCluster() {
 	    if (status == google.maps.DirectionsStatus.OK) { 
 	     pointsArray = response.routes[0].overview_path;
 	     len=pointsArray.length;
+	     console.log("lengtth"+ len);
 	    // placePolyLineForEmergency();
 	     for(i=0;i<len;i++)
 	    	 {
@@ -427,7 +429,7 @@ function calNPMGeoDistance(lat1,lon1,lat2,lon2)
         		alert('error' + textStatus + "" + errorThrown);
         	}else{
         		distanceInMiles = parseFloat(result,6);
-        		showPOIStart(lat1,lon1,distanceInMiles*3);
+        		showPOIStart(lat1,lon1,0.5);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -505,7 +507,7 @@ function initialize() {
 
   directionsDisplay.setMap(map);
   google.maps.event.addListener(map, 'click', function(event) {
-  	if(isEmergency == true && clickCount <2)
+  	if(isEmergency == true && clickCount ==0)
   	{
   		clickCount = clickCount +1;
   		placeSrcDestMarker(event.latLng);

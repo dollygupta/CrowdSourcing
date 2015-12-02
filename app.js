@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , report = require('./routes/report')
+  , login = require('./routes/login')
   , http = require('http')
   , path = require('path');
 
@@ -35,9 +36,10 @@ app.get('/chat', function(req, res) {
 app.get('/contact', function(req, res) {
 	res.render('contact');
 });
-
-
-app.get('/', routes.index);
+app.get('/', function(req, res) {
+	res.render('login');
+});
+app.get('/home', login.login);
 app.get('/users', user.list);
 app.get('/clusterReport', report.clusterReport);
 app.get('/getPosition', report.getPosition);
@@ -47,15 +49,17 @@ app.get('/calNPMGeoDistance',report.calNPMGeoDistance);
 server.listen(3000);
 
 var people=[];
-
+var id;
 var io = require('socket.io')(server); 
 io.on('connection',function(client){
 	//var count=0;
 	//client first funtion to call
 	client.on('join',function(name){
+		console.log("joined"+name);
 		client.nickname=name;
 		client.room='room1';
 		client.join('room1');
+		id=client.id;
 		people[client.id] = {"name" : name};
 	});
 	

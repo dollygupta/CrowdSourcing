@@ -1,5 +1,4 @@
 
-        var map;
         var directionDisplay;
         var directionsService;
         var stepDisplay;
@@ -128,20 +127,23 @@
 
 
             function makeRouteCallback(routeNum,disp){
-                if (polyline[routeNum] && (polyline[routeNum].getMap() != null)) {
+            
+                /*if (polyline[routeNum] && (polyline[routeNum].getMap() != null)) {
+                	console.log("hello0");
                     startAnimation(routeNum);
                     return;
-                }
+                }*/
                 return function(response, status){
 
                     if (status == google.maps.DirectionsStatus.OK){
 
                    //     var bounds = new google.maps.LatLngBounds();
                    //     var route = response.routes[0];
+                    	console.log("hello1");
                         startLocation[routeNum] = new Object();
                         endLocation[routeNum] = new Object();
 
-
+                        console.log("hello2");
                         polyline[routeNum] = new google.maps.Polyline({
                             path: [],
                             strokeColor: '#FFFF00',
@@ -159,7 +161,7 @@
               //          var path = response.routes[0].overview_path;
                         var legs = response.routes[0].legs;
 
-
+                        console.log("hello3");
                         disp = new google.maps.DirectionsRenderer(rendererOptions);
                         disp.setMap(map);
                         disp.setDirections(response);
@@ -167,21 +169,23 @@
 
                         //Markers
                         for (i=0;i<legs.length;i++) {
-                        	/*if(i<legs.length){
-                        		calNPMGeoDistance(legs[i].latlng.lat(), legs[i].latlng.lng(), legs[i+1].latlng.lat(), legs[i+1].latlng.lng());
-                        	}*/
+                        	console.log("legs"+legs.length);
                         	
                             if (i == 0) {
+                            	console.log("hello4");
                                 startLocation[routeNum].latlng = legs[i].start_location;
                                 startLocation[routeNum].address = legs[i].start_address;
-                              //  console.log(startLocation[routeNum].latlng.lat());
+                                console.log(startLocation[routeNum].latlng.lat());
                                 console.log(legs[i].start_address);
                                 // marker = google.maps.Marker({map:map,position: startLocation.latlng});
                                 marker[routeNum] = createMarker(legs[i].start_location,"start",legs[i].start_address);
+                                console.log("hello5");
                             }
+                            console.log("hello6");
                             endLocation[routeNum].latlng = legs[i].end_location;
                             endLocation[routeNum].address = legs[i].end_address;
-                            
+                            console.log(endLocation[routeNum].latlng.lat());
+                            console.log("hello7");
                             var steps = legs[i].steps;
                             for (j=0;j<steps.length;j++) {
                                 var nextSegment = steps[j].path;
