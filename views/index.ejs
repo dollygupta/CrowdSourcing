@@ -42,12 +42,20 @@ var x = '';
 	//on connecting ask for the user name
 	socket.on('connect',function(data){	
 	//	alert("Ready to use!!");
-		
-	nickname=prompt("Please enter your name:");
-	//sessionStorage.setItem("User Id",document.getElementById('userId').value);
+		if(sessionStorage.getItem("userName")!=null)
+			{
+			alert("Welcome Back");
+			nickname=sessionStorage.getItem("userName");
+			}
+		else{
+			nickname=prompt("Please enter your name:");
+			sessionStorage.setItem("userName",nickname);
+		}
+	
 	//nickname= <%- JSON.stringify(userName) %>
 	console.log(nickname);
 	socket.emit('join',nickname);
+	//socket.emit('new user',nickname);
 	showOtherUser();
 	setPointer();
 	});
