@@ -322,7 +322,7 @@ function showPOIStart(lat,lng,distance)
 			}
 		},	
 		error : function(jqXHR, textStatus, errorThrown) {
-			alert('error hai' + textStatus + "" + errorThrown);
+			console.log('error hai' + textStatus + "" + errorThrown);
 		}
 	});
 	
@@ -343,14 +343,14 @@ function calNPMGeoDistance(lat1,lon1,lat2,lon2)
         success: function(result) {
         	if(result == "Error")
         	{
-        		alert('error' + textStatus + "" + errorThrown);
+        		console.log('error' + textStatus + "" + errorThrown);
         	}else{
         		distanceInMiles = parseFloat(result,6);
         		showPOIStart(lat1,lon1,0.5);
         	}
         },
         error: function(jqXHR, textStatus, errorThrown) {
-        	alert('error ' + textStatus + " " + errorThrown);
+        	console.log('error ' + textStatus + " " + errorThrown);
         }
     });
 }

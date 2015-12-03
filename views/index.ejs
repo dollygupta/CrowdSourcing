@@ -68,7 +68,8 @@ var x = '';
 	
 	// broadcast alert activities to other user.
 	socket.on('sendAlert',function(data,wayLat,wayLong){
-		alert(data);
+		//alert(data);
+		$('#alertModel').modal('show');
 		var i=0;
 		var value;
 		pointsArray=[];
@@ -186,6 +187,20 @@ var x = '';
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="alertModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel" align="center">Emergency Vehicle Around !!</h4>
+      <input type="submit" class="btn btn-primary" onclick=$('#alertModel').modal('hide'); value="ok" />
+    </div>
+    </div>
+  </div>
+</div>
+</div>
+
 <!-- footer -->
 <nav class="navbar navbar-inverse no-margin">
 	<div class="container">

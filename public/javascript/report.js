@@ -18,7 +18,7 @@ function showOtherUser()
 		success : function(data) {
 		
 			if (data == "Error") {
-				alert("Something went wrong!");
+				console.log("Something went wrong!");
 			} else {
 				for(var i=0; i<data.length; i++)
 				{
@@ -29,7 +29,7 @@ function showOtherUser()
 			}
 		},		
 		error : function(jqXHR, textStatus, errorThrown) {
-			alert('error hai' + textStatus + "" + errorThrown);
+			console.log('error hai' + textStatus + "" + errorThrown);
 		}
 	})	
 }
@@ -47,7 +47,7 @@ function setPointer()
 	dataType: 'json',
 		success : function(data) {
 			if (data == "Error") {
-				alert("Something went wrong!");
+				console.log("Something went wrong!");
 			} else {
 					latitude=data[0].latitude;
 					longitude=data[0].longitude;
@@ -57,7 +57,7 @@ function setPointer()
 			}
 		},		
 		error : function(jqXHR, textStatus, errorThrown) {
-			alert('error hai' + textStatus + "" + errorThrown);
+			console.log('error hai' + textStatus + "" + errorThrown);
 		}
 	})	
 }
@@ -89,7 +89,7 @@ function clusterReport(lat,lng,distance,value)
 			socket.emit('messages',{report:value,lat:latitude,long:longitude},data);
 		},	
 		error : function(jqXHR, textStatus, errorThrown) {
-			alert('error hai' + textStatus + "" + errorThrown);
+			console.log('error hai' + textStatus + "" + errorThrown);
 		}
 	});	
 }
