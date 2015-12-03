@@ -91,25 +91,20 @@ io.on('connection',function(client){
 		var i=0;
 		
 		var clients = io.sockets.adapter.rooms['room1'];
-		for(i=0; i<data.length; i++)
-		{
+		
+			console.log("------------------data name found----------"+data);
 			for (var clientId in clients)
 			{
 				
-				if(data[i].name==people[clientId].name && data[i].name!=nickname)
-				{	
-					
+				if(data==people[clientId].name && data!=nickname)
+				{
 						if (io.sockets.connected[clientId]) {
 						    io.sockets.connected[clientId].emit("sendAlert", "emergency vehicle around!",wayLat, wayLong);
-					
 					}
-			
-					
 				}
 			}
-		}
-		
 	});
+	
 	
 	client.on('sendPolyWay',function(wayLat, wayLong){
 		console.log("--in---------------------"+ wayLat[0]);

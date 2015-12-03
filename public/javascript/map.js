@@ -8,75 +8,9 @@ var directionsService = new google.maps.DirectionsService();
 var distanceInMiles;
 var pointsArray=[];
 var wayLat=[], wayLong=[];
+var alertUsers=[];
 var finalCluster=[];
 
-// Add a Hazard control that adds the hazard control on Map
-/* HazardControl(controlDiv, map) {
-  controlDiv.style.padding = '5px';
-  var controlUI=document.createElement("img");
-  controlUI.src="images/hazardIcon.png";
-  controlUI.id="hazardPic";
-  controlDiv.appendChild(controlUI);
-  var controlText = document.createElement('div');
-  controlText.style.fontFamily='Arial,sans-serif';
-  controlText.style.fontSize='12px';
-  controlText.style.paddingLeft = '4px';
-  controlText.style.paddingRight = '4px';
-  controlText.innerHTML = '<b>Report Hazard</b>'
-  controlUI.appendChild(controlText);
-
-  // Setup click-event listener: To place the marker hazard
-  google.maps.event.addDomListener(controlUI, 'click', function() {
-  report("hazard");
-  });
-}
-
-// Add a Accident control that adds the accident control on Map
-function AccidentControl(controlDiv, map) {
-  controlDiv.style.padding = '5px';
-  var controlUI=document.createElement("img");
-  controlUI.src="images/accidentIcon.png";
-  controlUI.id="hazardPic";
-  
-  controlDiv.appendChild(controlUI);
-  var controlText = document.createElement('div');
-  controlText.style.fontFamily='Arial,sans-serif';
-  controlText.style.fontSize='12px';
-  controlText.style.paddingLeft = '4px';
-  controlText.style.paddingRight = '4px';
-  controlText.innerHTML = '<b>Report Accident</b>'
-  controlUI.appendChild(controlText);
-
-  // Setup click-event listener: To place the marker for accident
-  google.maps.event.addDomListener(controlUI, 'click', function() {
-  report("accident");
-  });
-}
-
-// Add a Emergency Vehicle control that adds the emergency vehicle control on Map
-function EmergencyVehicleControl(controlDiv, map) {
-  controlDiv.style.padding = '5px';
-  var controlUI=document.createElement("img");
-   controlUI.src="images/emergencyVehicleIcon.png";
-  controlUI.id="emergencyVehiclePic";
-
-  controlUI.setAttribute("data-toggle", "modal");
-  controlUI.setAttribute("data-target", "#myModal3");
-
-  controlDiv.appendChild(controlUI);
-  var controlText = document.createElement('div');
-  controlText.style.fontFamily='Arial,sans-serif';
-  controlText.style.fontSize='12px';
-  controlText.style.paddingLeft = '4px';
-  controlText.style.paddingRight = '4px';
-  controlText.innerHTML = '<b>Report Emergency Vehicle</b>'
-  controlUI.appendChild(controlText);
-
-  // Setup click-event listener: To place the marker for emergency vehicle
-  google.maps.event.addDomListener(controlUI, 'click', function() {
-	 
-  });
-}*/
 
 //Function to add the polyLineForEmergency
 function placePolyLineForEmergency()
@@ -91,68 +25,6 @@ function placePolyLineForEmergency()
   });
 }
 
-// Add a Traffic Jam control that adds the traffic jam control on Map
-/*function TrafficJamControl(controlDiv, map) {
-  controlDiv.style.padding = '5px';
-  var controlUI=document.createElement("img");
-  controlUI.src="images/trafficJamIcon.png";
-  controlUI.id="trafficJamPic";
-  controlDiv.appendChild(controlUI);
-  var controlText = document.createElement('div');
-  controlText.style.fontFamily='Arial,sans-serif';
-  controlText.style.fontSize='12px';
-  controlText.style.paddingLeft = '4px';
-  controlText.style.paddingRight = '4px';
-  controlText.innerHTML = '<b>Report Traffic Jam</b>'
-  controlUI.appendChild(controlText);
-
-  // Setup click-event listener: To place the marker for traffic jam
-  google.maps.event.addDomListener(controlUI, 'click', function() {
-  report("traffic");
-  });
-}
-
-// Add a Closed Roads control that adds the closed roads control on Map
-function ClosedRoadsControl(controlDiv, map) {
-  controlDiv.style.padding = '5px';
-  var controlUI=document.createElement("img");
-  controlUI.src="images/closureIcon.png";
-  controlUI.id="closurePic";
-  controlDiv.appendChild(controlUI);
-  var controlText = document.createElement('div');
-  controlText.style.fontFamily='Arial,sans-serif';
-  controlText.style.fontSize='12px';
-  controlText.style.paddingLeft = '4px';
-  controlText.style.paddingRight = '4px';
-  controlText.innerHTML = '<b>Report Closed Roads</b>'
-  controlUI.appendChild(controlText);
-
-  // Setup click-event listener: To place the marker for traffic jam
-  google.maps.event.addDomListener(controlUI, 'click', function() {
-  report("closedRoad");
-  });
-}
-
-// Add a Traffic Police control that adds the traffic police control on Map
-function TrafficPoliceControl(controlDiv, map) {
-  controlDiv.style.padding = '5px';
-  var controlUI=document.createElement("img");
-  controlUI.src="images/policeIcon.png";
-  controlUI.id="trafficPolicePic";
-  controlDiv.appendChild(controlUI);
-  var controlText = document.createElement('div');
-  controlText.style.fontFamily='Arial,sans-serif';
-  controlText.style.fontSize='12px';
-  controlText.style.paddingLeft = '4px';
-  controlText.style.paddingRight = '4px';
-  controlText.innerHTML = '<b>Report Traffic Police</b>'
-  controlUI.appendChild(controlText);
-
-  // Setup click-event listener: To place the marker for traffic jam
-  google.maps.event.addDomListener(controlUI, 'click', function() {
-  report("police");
-  });normalPos
-}*/
 
 function placeHazardMarker(reportLoc,nickname) {
 var markerHazardLocation = reportLoc;
@@ -372,6 +244,7 @@ function placeSrcDestMarker(location) // place src destination pins
 	calNoOfCluster();
 	  setRoutes();
 	 userPos=location;
+	 
 	  
   }
 }
@@ -390,25 +263,69 @@ function calNoOfCluster() {
 	    if (status == google.maps.DirectionsStatus.OK) { 
 	     pointsArray = response.routes[0].overview_path;
 	     len=pointsArray.length;
-	     console.log("lengtth"+ len);
 	    // placePolyLineForEmergency();
 	     for(i=0;i<len;i++)
 	    	 {
 	    	 wayLat.push(pointsArray[i].lat());
 	    	 wayLong.push(pointsArray[i].lng());
 	    	 }
-		//socket.emit('sendPolyWay',wayLat, wayLong);
-	  for(clusterCenter=0; clusterCenter<len-1; clusterCenter++)
-	    	 {
-	    	 calNPMGeoDistance(pointsArray[clusterCenter].lat(), pointsArray[clusterCenter].lng(), pointsArray[clusterCenter+1].lat(), pointsArray[clusterCenter+1].lng());
-	    	 }
-	   showPOIStart(end.lat(),end.lng(),0.8);
+	     for(clusterCenter=0; clusterCenter<pointsArray.length; clusterCenter++)
+	     {
+	    	 showPOIStart(pointsArray[clusterCenter].lat(),pointsArray[clusterCenter].lng(),0.5);
+	    	 // calNPMGeoDistance(pointsArray[clusterCenter].lat(), pointsArray[clusterCenter].lng(), pointsArray[clusterCenter+1].lat(), pointsArray[clusterCenter+1].lng());
+	     }
+	    
+	   console.log("length alerts"+alertUsers.length);
 	  
 	     isEmergency=false;
 		  clickCount=0;
 	    }           
 	});
 	 
+}
+
+
+
+
+
+function showPOIStart(lat,lng,distance)
+{
+	$.ajax({
+		url : "http://localhost:3000/getPointsInDistance",
+		type : 'GET',
+		data :{
+			"lat" : lat,
+			"lng" : lng,
+			"distance" : distance
+		},
+	dataType: 'json',
+		success : function(data) {	
+			if(data=="No result found"){
+				
+			}
+			else{
+				console.log("in POI");
+				for(var i=0; i<data.length; i++)
+				{
+					if(alertUsers.indexOf(data[i].name) == -1){
+					alertUsers.push(data[i].name);
+					 console.log("length alerts"+alertUsers.length);
+					 console.log("alertData----"+ data[i].name);
+					 var normalPos=new google.maps.LatLng(data[i].latitude,data[i].longitude);
+					 var normalImg='images/normalUser1.png';
+					 setNormalMarker1(normalPos,normalImg,data[i].latitude,data[i].longitude,data[i].name,data[i].mobileNo,data[i].streetAddress);
+					 socket.emit('sendAlert',data[i].name,wayLat,wayLong);
+					} 
+				}
+				
+				
+			}
+		},	
+		error : function(jqXHR, textStatus, errorThrown) {
+			alert('error hai' + textStatus + "" + errorThrown);
+		}
+	});
+	
 }
 
 
@@ -436,40 +353,6 @@ function calNPMGeoDistance(lat1,lon1,lat2,lon2)
         	alert('error ' + textStatus + " " + errorThrown);
         }
     });
-}
-
-function showPOIStart(lat,lng,distance)
-{
-	$.ajax({
-		url : "http://localhost:3000/getPointsInDistance",
-		type : 'GET',
-		data :{
-			"lat" : lat,
-			"lng" : lng,
-			"distance" : distance
-		},
-	dataType: 'json',
-		success : function(data) {	
-			if(data=="No result found"){
-				
-			}
-			else{
-				
-				for(var i=0; i<data.length; i++)
-				{
-				
-				var normalPos=new google.maps.LatLng(data[i].latitude,data[i].longitude);
-				var normalImg='images/normalUser1.png';
-				setNormalMarker1(normalPos,normalImg,data[i].latitude,data[i].longitude,data[i].name,data[i].mobileNo,data[i].streetAddress);
-				}
-				socket.emit('sendAlert',data,wayLat,wayLong);
-				
-			}
-		},	
-		error : function(jqXHR, textStatus, errorThrown) {
-			alert('error hai' + textStatus + "" + errorThrown);
-		}
-	});	
 }
 
 function initialize() {
@@ -518,32 +401,7 @@ function initialize() {
   	}
   		
   });
-  
-  /*var hazardControlDiv = document.createElement('div');
-  var hazardControl = new HazardControl(hazardControlDiv, map);
-  
-  var accidentControlDiv = document.createElement('div');
-  var accidentControl = new AccidentControl(accidentControlDiv, map);
-  
-  var emergencyVehicleControlDiv = document.createElement('div');
-  var emergencyVehicleControl = new EmergencyVehicleControl(emergencyVehicleControlDiv, map);
-  
-  var trafficJamControlDiv = document.createElement('div');
-  var trafficJamControl = new TrafficJamControl(trafficJamControlDiv, map);
-  
-  var closedRoadsControlDiv = document.createElement('div');
-  var closedRoadsControl = new ClosedRoadsControl(closedRoadsControlDiv, map);
-  
-  var policeControlDiv = document.createElement('div');
-  var policeControl = new TrafficPoliceControl(policeControlDiv, map);
-  
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(hazardControlDiv);
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(accidentControlDiv);
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(emergencyVehicleControlDiv);
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(trafficJamControlDiv);
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(closedRoadsControlDiv);
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(policeControlDiv);
-  */
+ 
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
