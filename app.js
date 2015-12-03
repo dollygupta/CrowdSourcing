@@ -13,6 +13,8 @@ var express = require('express')
 
 var app = express();
 var server = require('http').createServer(app);
+app.use(express.cookieParser());
+app.use(express.session({secret: '1234567890QWERTY'}));
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -36,10 +38,11 @@ app.get('/chat', function(req, res) {
 app.get('/contact', function(req, res) {
 	res.render('contact');
 });
-app.get('/', function(req, res) {
+/*app.get('/', function(req, res) {
 	res.render('login');
-});
-app.get('/home', login.login);
+});*/
+//app.get('/home', login.login);
+app.get('/',routes.index)
 app.get('/users', user.list);
 app.get('/clusterReport', report.clusterReport);
 app.get('/getPosition', report.getPosition);

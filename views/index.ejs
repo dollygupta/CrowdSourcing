@@ -40,10 +40,13 @@ var x = '';
 	var src="",inter="",dest="",myTrip;
 
 	//on connecting ask for the user name
-	socket.on('connect',function(data){			
+	socket.on('connect',function(data){	
+	//	alert("Ready to use!!");
+		
 	nickname=prompt("Please enter your name:");
+	//sessionStorage.setItem("User Id",document.getElementById('userId').value);
 	//nickname= <%- JSON.stringify(userName) %>
-	//console.log(nickname);
+	console.log(nickname);
 	socket.emit('join',nickname);
 	showOtherUser();
 	setPointer();
