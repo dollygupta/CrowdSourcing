@@ -86,7 +86,7 @@ io.on('connection',function(client){
 	});
 	
 	//client send alert msg after clustering emergency vehicle 
-	client.on('sendAlert',function(data,wayLat, wayLong){
+	client.on('sendAlert',function(data,start, end){
 		var nickname = client.nickname;
 		var i=0;
 		
@@ -99,7 +99,7 @@ io.on('connection',function(client){
 				if(data==people[clientId].name && data!=nickname)
 				{
 						if (io.sockets.connected[clientId]) {
-						    io.sockets.connected[clientId].emit("sendAlert", "emergency vehicle around!",wayLat, wayLong);
+						    io.sockets.connected[clientId].emit("sendAlert", "emergency vehicle around!",start, end);
 					}
 				}
 			}

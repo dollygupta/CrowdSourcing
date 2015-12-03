@@ -103,7 +103,7 @@
             return marker;
         }
 
-        function setRoutes(){
+        function setRoutes(start, end){
 
             var directionsDisplay = new Array();
 

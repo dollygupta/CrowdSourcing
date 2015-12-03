@@ -242,7 +242,7 @@ function placeSrcDestMarker(location) // place src destination pins
   {
 	  
 	calNoOfCluster();
-	  setRoutes();
+	  setRoutes(start,end);
 	 userPos=location;
 	 
 	  
@@ -314,7 +314,7 @@ function showPOIStart(lat,lng,distance)
 					 var normalPos=new google.maps.LatLng(data[i].latitude,data[i].longitude);
 					 var normalImg='images/normalUser1.png';
 					 setNormalMarker1(normalPos,normalImg,data[i].latitude,data[i].longitude,data[i].name,data[i].mobileNo,data[i].streetAddress);
-					 socket.emit('sendAlert',data[i].name,wayLat,wayLong);
+					 socket.emit('sendAlert',data[i].name,start,end);
 					} 
 				}
 				

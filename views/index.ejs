@@ -67,18 +67,20 @@ var x = '';
 		});
 	
 	// broadcast alert activities to other user.
-	socket.on('sendAlert',function(data,wayLat,wayLong){
+	socket.on('sendAlert',function(data,start,end){
 		//alert(data);
 		$('#alertModel').modal('show');
-		var i=0;
+		console.log("senAlert error");
+		 setRoutes(start,end);
+		/*var i=0;
 		var value;
 		pointsArray=[];
-		for(i=0; i<wayLat.length; i++)
+		/*for(i=0; i<wayLat.length; i++)
 			{
 				value= new google.maps.LatLng(wayLat[i],wayLong[i]);
 				pointsArray.push(value);
-			}
-		placePolyLineForEmergency();
+			}*/
+		//placePolyLineForEmergency();
 		//showEmergencyRoute(start,end);	
 	});
 	socket.on('sendPolyWay',function(wayLat,wayLong)
