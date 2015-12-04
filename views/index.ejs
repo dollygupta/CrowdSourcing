@@ -55,7 +55,6 @@ var x = '';
 	//nickname= <%- JSON.stringify(userName) %>
 	console.log(nickname);
 	socket.emit('join',nickname);
-	//socket.emit('new user',nickname);
 	showOtherUser();
 	setPointer();
 	});

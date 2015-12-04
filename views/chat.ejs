@@ -148,10 +148,11 @@
         var $messageForm = $('#btn-chat');
         var $messageBox = $('#btn-input');
         var $chat = $('#chat');
+        var name='';
 
-
-        socket.emit('new user', function(){
-
+      /*  socket.on('newUser', function(nickname){
+        	name=nickname;
+        	console.log("chat name:"+name);
         });
 
         socket.on('usernames', function(data){
@@ -160,11 +161,11 @@
                 html += data[i] + '<br/>'
             }
             $users.html(html);
-        });
+        });*/
 
         $messageForm.click(function(e){
             e.preventDefault();
-            socket.emit('send message', $messageBox.val());
+            socket.emit('send message', $messageBox.val(), sessionStorage.getItem("userName"));
             $messageBox.val('');
         });
 

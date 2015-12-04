@@ -113,22 +113,23 @@ io.on('connection',function(client){
 		console.log("--in---------------------"+ wayLat[0]);
 		client.broadcast.emit("sendPolyWay",wayLat,wayLong);
 	});
-	client.on('new user', function(){
+	/*client.on('new user', function(){
 			client.nickname = people[id].name;
 			updateNicknames();
 	});
 
 	function updateNicknames(){
 		io.sockets.emit('usernames', people);
-	}
+	}*/
 
-	client.on('send message', function(data){
-		io.sockets.emit('new message', {msg: data, nick: client.nickname});
+	client.on('send message', function(data,name){
+		console.log("hello--------chat");
+		io.sockets.emit('new message', {msg: data, nick: name});
 	});
 
-	client.on('disconnect', function(data){
+	/*client.on('disconnect', function(data){
 		if(!client.nickname) return;
 		people.splice(people.indexOf(client.nickname), 1);
 		updateNicknames();
-	});
+	});*/
 });
