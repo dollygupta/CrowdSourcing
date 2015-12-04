@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><%= userName %></title>
- <script src = "/socket.io/socket.io.js"> </script>
- 
- 
-   <script type="text/javaScript" src="/javascript/jquery-1.11.2.min.js"></script>
+	<title>Apollo280</title>
 
- <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content="Apollo280 Crowdsourcing">
+	<meta name="author" content="Apollo280">
+	<meta name="keywords" content="Apollo280, Crowdsourcing, Closed Roads, Traffic Jam, Emergency, Chat">
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+	<script src = "/socket.io/socket.io.js"> </script>
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<link href="/stylesheets/simple-sidebar.css" rel="stylesheet">
+
+	<script type="text/javaScript" src="/javascript/jquery-1.11.2.min.js"></script>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link href="/stylesheets/simple-sidebar.css" rel="stylesheet">
 
 	<link href="/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -32,81 +41,88 @@
 		}
 	</style>
 
-<script type="text/javascript">
-var x = '';
+	<script type="text/javascript">
+		var x = '';
 
-	var socket = io.connect('http://localhost:3000/'); // make client connection with socket
-	var nickname =" ", latitude="" , longitude="", reportLoc="", userPos="", img="", normalPos="",normalImg="",redPos="",redImg="";
-	var src="",inter="",dest="",myTrip;
+		var socket = io.connect(); // make client connection with socket
+		var nickname =" ", latitude="" , longitude="", reportLoc="", userPos="", img="", normalPos="",normalImg="",redPos="",redImg="";
+		var src="",inter="",dest="",myTrip;
 
-	//on connecting ask for the user name
-	socket.on('connect',function(data){	
-	//	alert("Ready to use!!");
-		if(sessionStorage.getItem("userName")!=null)
+		//on connecting ask for the user name
+		socket.on('connect',function(data){
+			//	alert("Ready to use!!");
+			if(sessionStorage.getItem("userName")!=null)
 			{
-			alert("Welcome Back");
-			nickname=sessionStorage.getItem("userName");
+				alert("Welcome Back");
+				nickname=sessionStorage.getItem("userName");
 			}
-		else{
-			nickname=prompt("Please enter your name:");
-			sessionStorage.setItem("userName",nickname);
-		}
-	
-	//nickname= <%- JSON.stringify(userName) %>
-	console.log(nickname);
-	socket.emit('join',nickname);
-	showOtherUser();
-	setPointer();
-	});
-	//broadcast report to the clients
-	socket.on('messages',function(data){
-		reportLoc=new google.maps.LatLng(data.lat,data.long);
-		if(data.msg=="hazard"){
-		 placeHazardMarker(reportLoc,nickname);}
-		 else if(data.msg=="accident"){
-		 placeAccidentMarker(reportLoc,nickname);}
-		 else if(data.msg=="emergency"){
-		 placeEmergencyVehicleMarker(reportLoc,nickname);}
-		 else if(data.msg=="traffic"){
-		 placeTrafficJamMarker(reportLoc,nickname);}
-		 else if(data.msg=="closedRoad"){
-		 placeClosedRoadsMarker(reportLoc,nickname);}
-		 else if(data.msg=="police"){
-		 placeTrafficPoliceMarker(reportLoc,nickname);}
-		 
+			else{
+				nickname=prompt("Please enter your name:");
+				sessionStorage.setItem("userName",nickname);
+			}
+
+
+			console.log(nickname);
+			socket.emit('join',nickname);
+			showOtherUser();
+			setPointer();
 		});
-	
-	// broadcast alert activities to other user.
-	socket.on('sendAlert',function(data,start,end){
-		//alert(data);
-		$('#alertModel').modal('show');
-		console.log("senAlert error");
-		 setRoutes(start,end);
-		/*var i=0;
-		var value;
-		pointsArray=[];
-		/*for(i=0; i<wayLat.length; i++)
-			{
-				value= new google.maps.LatLng(wayLat[i],wayLong[i]);
-				pointsArray.push(value);
-			}*/
-		//placePolyLineForEmergency();
-		//showEmergencyRoute(start,end);	
-	});
-	socket.on('sendPolyWay',function(wayLat,wayLong)
-	{
-		var i=0;
-		var value;
-		
-		for(i=0; i<wayLat.length; i++)
+		//broadcast report to the clients
+		socket.on('messages',function(data){
+			reportLoc=new google.maps.LatLng(data.lat,data.long);
+			if(data.msg=="hazard"){
+				placeHazardMarker(reportLoc,nickname);}
+			else if(data.msg=="accident"){
+				placeAccidentMarker(reportLoc,nickname);}
+			else if(data.msg=="emergency"){
+				placeEmergencyVehicleMarker(reportLoc,nickname);}
+			else if(data.msg=="traffic"){
+				placeTrafficJamMarker(reportLoc,nickname);}
+			else if(data.msg=="closedRoad"){
+				placeClosedRoadsMarker(reportLoc,nickname);}
+			else if(data.msg=="police"){
+				placeTrafficPoliceMarker(reportLoc,nickname);}
+
+		});
+
+		// broadcast alert activities to other user.
+		socket.on('sendAlert',function(data,start,end){
+			//alert(data);
+			$('#alertModel').modal('show');
+			console.log("senAlert error");
+			setRoutes(start,end);
+			/*var i=0;
+			 var value;
+			 pointsArray=[];
+			 /*for(i=0; i<wayLat.length; i++)
+			 {
+			 value= new google.maps.LatLng(wayLat[i],wayLong[i]);
+			 pointsArray.push(value);
+			 }*/
+			//placePolyLineForEmergency();
+			//showEmergencyRoute(start,end);
+		});
+		socket.on('sendPolyWay',function(wayLat,wayLong)
+		{
+			var i=0;
+			var value;
+
+			for(i=0; i<wayLat.length; i++)
 			{
 				value= new google.maps.LatLng(wayLat[i],wayLong[i]);
 				pointsArray.push(value);
 			}
-		placePolyLineForEmergency();
-	});
-	
-</script>
+			placePolyLineForEmergency();
+		});
+
+	</script>
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
 
 	<meta name="google-site-verification" content="nHbRUAA9eu48rQspiYEKtbUwPL6yPEGpxYWMftjkzmY" />
 
@@ -121,14 +137,14 @@ var x = '';
 		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle" style="right: 175%">
 			<span class="fa fa-plus-square-o fa-lg" aria-hidden="true"></span>
 		</button>
-		<a class="navbar-brand" href="/home"><i class="fa fa-rocket fa-4"></i> Apollo</a>
+		<a class="navbar-brand" href="/"><i class="fa fa-rocket fa-4"></i> Apollo</a>
 	</div><!-- navbar-header-->
 
-<!--	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		<ul class="nav navbar-nav">
-			<li class="active" ><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
-		</ul>
-	</div>--><!-- bs-example-navbar-collapse-1 -->
+	<!--	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active" ><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
+            </ul>
+        </div>--><!-- bs-example-navbar-collapse-1 -->
 </nav>
 <div id="wrapper" class="toggled-2">
 	<!-- Sidebar -->
@@ -155,9 +171,7 @@ var x = '';
 				<a href="/contact"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Contact Us</a>
 			</li>
 
-			<li>
-				<a href="/"><span class="fa-stack fa-lg pull-left"><i class="fa fa-power-off fa-stack-1x "></i></span>Logout</a>
-			</li>
+
 		</ul>
 	</div><!-- /#sidebar-wrapper -->
 	<!-- Page Content -->
@@ -176,68 +190,61 @@ var x = '';
 <!-- /#wrapper -->
 
 <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel" align="center">Give Access Code</h4>
-      </div>
-      </div>
-      <div class="modal-body">
-        <form class="form-horizontal" onsubmit="return false">
-          <fieldset>
-            <!-- Text input-->
-            <div class="form-group">
-              <div class="col-md-12">
-              <input id="s3" name="source" type="text" required placeholder="Access Code" class="form-control input-md" >
-                
-              </div>
-            </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel" align="center">Give Access Code</h4>
+			</div>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal" onsubmit="return false">
+				<fieldset>
+					<!-- Text input-->
+					<div class="form-group">
+						<div class="col-md-12">
+							<input id="s3" name="source" type="text" required placeholder="Access Code" class="form-control input-md" >
 
-            <!-- Button -->
-            <input type="submit" class="btn btn-primary" onclick='checkInputsBeforeClosing("#s3","madhavWasHere", "#myModal3");' value="Save changes" />
-            </fieldset>
-            </form>
-            
-      </div>
-    </div>
-  </div>
+						</div>
+					</div>
+
+					<!-- Button -->
+					<input type="submit" class="btn btn-primary" onclick='checkInputsBeforeClosing("#s3","madhavWasHere", "#myModal3");' value="Save changes" />
+				</fieldset>
+			</form>
+
+		</div>
+	</div>
+</div>
 </div>
 
 
 <div class="modal fade" id="alertModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 class="modal-title" id="myModalLabel" align="center">Emergency Vehicle Around !!</h4>
-      <input type="submit" class="btn btn-primary" onclick=$('#alertModel').modal('hide'); value="ok" />
-    </div>
-    </div>
-  </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel" align="center">Emergency Vehicle Around !!</h4>
+				<input type="submit" class="btn btn-primary" onclick=$('#alertModel').modal('hide'); value="ok" />
+			</div>
+		</div>
+	</div>
 </div>
 </div>
 
-<!-- footer -->
-<nav class="navbar navbar-inverse no-margin">
-	<div class="container">
-		<p align="center" style="padding-top: 1%; color: white">Copyright - Apollo Inc. 2015</p>
-	</div>
-</nav>
-<!-- end footer -->
 
 </body>
 <script type="text/javascript">
-$('#emergency').on('click',function(){
-	$('#myModal3').modal('show');
-});
+	$('#emergency').on('click',function(){
+		$('#myModal3').modal('show');
+	});
 
 </script>
 <script src="http://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 
 <script type="text/javaScript" src="/javascript/report.js"></script>
- <script type="text/javaScript" src="/javascript/map.js"></script>
-  <script src="/javascript/v3_epoly.js" type="text/javascript"></script>
-   <script src="/javascript/movingPointer.js" type="text/javascript"></script>
+<script type="text/javaScript" src="/javascript/map.js"></script>
+<script src="/javascript/v3_epoly.js" type="text/javascript"></script>
+<script src="/javascript/movingPointer.js" type="text/javascript"></script>
 <script src="/javascript/sidebar_menu.js"></script>
-   
+
 </html>

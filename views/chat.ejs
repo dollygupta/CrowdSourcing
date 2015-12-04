@@ -2,6 +2,14 @@
 <html>
 <head>
 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Apollo280 Crowdsourcing">
+    <meta name="author" content="Apollo280">
+    <meta name="keywords" content="Apollo280, Crowdsourcing, Closed Roads, Traffic Jam, Emergency, Chat">
+
     <title>Apollo280 Chat</title>
     <script src = "/socket.io/socket.io.js"> </script>
 
@@ -58,6 +66,11 @@
         }
     </style>
 
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
 </head>
 
@@ -69,7 +82,7 @@
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle" style="right: 175%">
             <span class="fa fa-plus-square-o fa-lg" aria-hidden="true"></span>
         </button>
-        <a class="navbar-brand" href="/home"><i class="fa fa-rocket fa-4"></i> Apollo</a>
+        <a class="navbar-brand" href="/"><i class="fa fa-rocket fa-4"></i> Apollo</a>
     </div><!-- navbar-header-->
 
     <!--	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -94,9 +107,7 @@
                 <a href="/contact"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span>Contact Us</a>
             </li>
 
-            <li>
-                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-power-off fa-stack-1x "></i></span>Logout</a>
-            </li>
+
         </ul>
     </div><!-- /#sidebar-wrapper -->
     <!-- Page Content -->
@@ -129,13 +140,6 @@
 </div>
 <!-- /#wrapper -->
 
-<!-- footer -->
-<nav class="navbar navbar-inverse no-margin">
-    <div class="container">
-        <p align="center" style="padding-top: 1%; color: white">Copyright - Apollo Inc. 2015</p>
-    </div>
-</nav>
-
 </body>
 
 <script type="text/javaScript" src="/javascript/jquery-1.11.2.min.js"></script>
@@ -150,18 +154,18 @@
         var $chat = $('#chat');
         var name='';
 
-      /*  socket.on('newUser', function(nickname){
-        	name=nickname;
-        	console.log("chat name:"+name);
-        });
+        /*  socket.on('newUser', function(nickname){
+         name=nickname;
+         console.log("chat name:"+name);
+         });
 
-        socket.on('usernames', function(data){
-            var html = '';
-            for(var i=0; i < data.length; i++){
-                html += data[i] + '<br/>'
-            }
-            $users.html(html);
-        });*/
+         socket.on('usernames', function(data){
+         var html = '';
+         for(var i=0; i < data.length; i++){
+         html += data[i] + '<br/>'
+         }
+         $users.html(html);
+         });*/
 
         $messageForm.click(function(e){
             e.preventDefault();

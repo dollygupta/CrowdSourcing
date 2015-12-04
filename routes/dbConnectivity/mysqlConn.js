@@ -4,11 +4,11 @@
  */
 var mysql = require('mysql');
 var pool  = mysql.createPool({
-	host     : 'localhost',
+	host     : 'crowdsourcing.cqk6ycyeciwh.us-west-1.rds.amazonaws.com',
 	user     : 'root',
-	password : 'root',
+	password : 'Rajas987.',
 	port     : '3306',
-	database : 'crowdsourcing',
+	database : '280',
 	connectionLimit : '10'
 });
 

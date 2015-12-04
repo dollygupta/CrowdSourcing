@@ -38,7 +38,7 @@ exports.getPosition = function(req,res)
 	var value = req.param("input");
 	var resultDis="";
 	console.log(value);
-	var sqlstmt = "select * from 239_data;";
+	var sqlstmt = "select * from my_data;";
 	
 	mysqlQuery.execQuery(sqlstmt,function(err, rows, fields){
 		if (err) {
@@ -63,7 +63,7 @@ exports.getLatLong = function(req,res)
 	var name = req.param("input");
 	var result="";
 	console.log("nickname value =" +name);
-	var sqlstmt = "select latitude,longitude from 239_data where name=?;";
+	var sqlstmt = "select latitude,longitude from my_data where name=?;";
 	var params=[name];
 	
 	mysqlQuery.execQuery(sqlstmt,params,function(err, rows, fields){
@@ -117,7 +117,7 @@ exports.getPointsInDistance = function(req,res)
 	console.log("finally distance"+distance);
 	
 	//var sqlstmt = "select * from allUsers";
-  var sqlstmt = "select latitude,longitude,name,mobileNo,streetAddress from 239_data where (((acos(sin(('"+lat+"' * pi()/180)) * sin((latitude*pi()/180)) + cos(('"+lat+"' * pi()/180)) *cos((latitude*pi()/180)) * cos((('"+lng+"' - longitude)*pi()/180)))) *180/pi())*60*2.133) <='"+distance+"';";
+  var sqlstmt = "select latitude,longitude,name,mobileNo,streetAddress from my_data where (((acos(sin(('"+lat+"' * pi()/180)) * sin((latitude*pi()/180)) + cos(('"+lat+"' * pi()/180)) *cos((latitude*pi()/180)) * cos((('"+lng+"' - longitude)*pi()/180)))) *180/pi())*60*2.133) <='"+distance+"';";
 	
 	mysqlQuery.execQuery(sqlstmt,function(err, rows, fields){
 		if (err) {
